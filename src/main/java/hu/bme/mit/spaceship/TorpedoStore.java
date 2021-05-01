@@ -1,5 +1,7 @@
 package hu.bme.mit.spaceship;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.Random;
 
 /**
@@ -28,7 +30,7 @@ public class TorpedoStore {
     }
   }
 
-  public boolean fire(int numberOfTorpedos){
+  public boolean fire(int numberOfTorpedos) throws NoSuchAlgorithmException{
     if(numberOfTorpedos < 1 || numberOfTorpedos > this.torpedoCount){
       new IllegalArgumentException("numberOfTorpedos");
     }
@@ -36,8 +38,8 @@ public class TorpedoStore {
     boolean success = false;
 
     // simulate random overheating of the launcher bay which prevents firing
-    Random generator = new Random();
-    double r = generator.nextDouble();
+    Random rand = SecureRandom.getInstanceStrong();
+    double r = rand.nextInt();
 
     if (r >= FAILURE_RATE) {
       // successful firing
